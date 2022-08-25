@@ -17,7 +17,6 @@ describe('Test </FormCategory>', () => {
     render(<FormCategory addCategory={onNewCategory} />);
 
     const input = screen.getByRole('searchbox');
-    const form = screen.getByRole('form');
 
     fireEvent.input(input, { target: { value: inputValue } });
     fireEvent.submit(form);

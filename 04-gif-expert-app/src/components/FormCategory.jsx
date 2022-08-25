@@ -17,7 +17,7 @@ export const FormCategory = ({ addCategory }) => {
     setValue('');
   };
   return (
-    <form onSubmit={onSubmit}>
+    <form name='form' onSubmit={onSubmit}>
       <input
         type='search'
         onChange={onChangeInputSearch}
