@@ -13,5 +13,11 @@ import { HooksApp } from './HooksApp';
 import './index.css';
 // import '../src/07-useReducer/intro';
 import { TodoApp } from './07-useReducer/TodoApp';
+import { MainApp } from './09-useContext/MainApp';
+import { BrowserRouter } from 'react-router-dom';
 
-ReactDOM.createRoot(document.getElementById('root')).render(<TodoApp />);
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <BrowserRouter>
+    <MainApp />
+  </BrowserRouter>
+);
