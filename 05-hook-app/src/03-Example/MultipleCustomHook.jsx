@@ -15,10 +15,18 @@ export const MultipleCustomHook = () => {
       <hr />
       {isLoading ? <LoadingQuote /> : <Quote author={author} quote={quote} />}
 
-      <button onClick={decrementar} className='btn btn-primary'>
+      <button
+        onClick={decrementar}
+        name='decrementar'
+        className='btn btn-primary'
+      >
         &lt;- Before
       </button>
-      <button onClick={incrementar} className='btn btn-primary'>
+      <button
+        onClick={incrementar}
+        name='incrementar'
+        className='btn btn-primary'
+      >
         Next -&gt;
       </button>
     </>
