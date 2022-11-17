@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
-import { Home } from '../src/09-useContext/Home';
-import { UserContext } from '../src/09-useContext/context/UserContext';
+import { Home } from '../../src/09-useContext/Home';
+import { UserContext } from '../../src/09-useContext/context/UserContext';
 describe('Pruebas en <HomePage/>', () => {
   test('Show component whithout user ', () => {
     render(
@@ -8,5 +8,6 @@ describe('Pruebas en <HomePage/>', () => {
         <Home />
       </UserContext.Provider>
     );
+    expect(screen.getByText('Welcome')).toBeTruthy();
   });
 });
