@@ -1,13 +1,14 @@
 // @ts-nocheck
-import { Button, Grid, Link, TextField, Typography } from '@mui/material';
-import React, { useMemo } from 'react';
+import { Button, Grid, Link, TextField } from '@mui/material';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link as RouteLink } from 'react-router-dom';
 import { useForm } from '../../hooks/useForm';
-import { chekingAuth } from '../../store/auth/chekingAuth';
 import { AuthLayout } from '../layout/AuthLayout';
+import { checkingUserPass } from '../../store/auth/chekingGoogle';
 
 export const RegisterPage = () => {
+  const [isDirty, setIsDirty] = useState(false);
   const dispatch = useDispatch();
   const formValues = {
     email: '',
@@ -46,12 +47,13 @@ export const RegisterPage = () => {
   } = useForm(formValues);
 
   const onSubmit = (event) => {
-    dispatch(chekingAuth());
+    event.preventDefault();
+    dispatch(checkingUserPass({ email, password, displayName }));
   };
 
   return (
     <AuthLayout title={'Register'}>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={onSubmit} onChange={() => setIsDirty(true)}>
         <Grid container>
           <Grid item xs={12} sx={{ mt: 2 }}>
             <TextField
@@ -62,8 +64,8 @@ export const RegisterPage = () => {
               placeholder='Add your name'
               onChange={onInputChange}
               fullWidth
-              error={!isDisplayNameValid}
-              helperText={errorDisplayNameMessage}
+              error={!isDisplayNameValid && isDirty}
+              helperText={isDirty ? errorDisplayNameMessage : ''}
             />
           </Grid>
           <Grid item xs={12} sx={{ mt: 2 }}>
@@ -75,8 +77,8 @@ export const RegisterPage = () => {
               placeholder='Add the email'
               onChange={onInputChange}
               fullWidth
-              error={!isEmailValid}
-              helperText={errorEmailMessage}
+              error={!isEmailValid && isDirty}
+              helperText={isDirty ? errorEmailMessage : ''}
             />
           </Grid>
           <Grid item xs={12} sx={{ mt: 2 }}>
@@ -87,8 +89,8 @@ export const RegisterPage = () => {
               type='password'
               onChange={onInputChange}
               fullWidth
-              error={!isPasswordValid}
-              helperText={errorPasswordMessage}
+              error={!isPasswordValid && isDirty}
+              helperText={isDirty ? errorPasswordMessage : ''}
             />
           </Grid>
           <Grid container spacing={2} sx={{ mb: 2, mt: 2 }}>
