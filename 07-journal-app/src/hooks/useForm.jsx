@@ -1,8 +1,22 @@
-import React from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useState } from 'react';
 
 export const useForm = (initialForm = {}) => {
   const [formState, setFormState] = useState(initialForm);
+  const [validations, setValidations] = useState({});
+
+  const isFormValid = useMemo(() => {
+    return Object.keys(validations).length > 0
+      ? Object.keys(validations)
+          .filter((value) => typeof validations[value] === 'boolean')
+          .map((value) => validations[value])
+          .reduce((sum, next) => sum && next)
+      : false;
+  }, [validations]);
+
+  useEffect(() => {
+    createValidators();
+  }, [formState]);
 
   const onInputChange = ({ target }) => {
     const { name, value } = target;
@@ -17,7 +31,7 @@ export const useForm = (initialForm = {}) => {
     let val = {};
     let isValid = true;
     formState.validators.map((validation) => {
-      isValid = isValid && validation.fn(formState[validation.name]);
+      isValid = validation.fn(formState[validation.name]);
       val = {
         ...val,
         [`is${
@@ -30,18 +44,13 @@ export const useForm = (initialForm = {}) => {
           : validation.message,
       };
     });
-    setFormState({
-      ...formState,
-      validations: val,
-      isValidForm: isValid,
-    });
+    setValidations(val);
   };
   return {
+    ...validations,
     ...formState,
-    ...formState.validations,
-    formState,
     onInputChange,
     onResetForm,
-    createValidators,
+    isFormValid,
   };
 };

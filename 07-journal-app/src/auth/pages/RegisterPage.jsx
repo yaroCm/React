@@ -1,5 +1,6 @@
+// @ts-nocheck
 import { Button, Grid, Link, TextField, Typography } from '@mui/material';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link as RouteLink } from 'react-router-dom';
 import { useForm } from '../../hooks/useForm';
@@ -31,22 +32,20 @@ export const RegisterPage = () => {
     ],
   };
   const {
-    displayName,
     email,
     password,
+    displayName,
     onInputChange,
-    createValidators,
     isDisplayNameValid,
     errorDisplayNameMessage,
-    formState,
-    isValidForm,
+    isEmailValid,
+    errorEmailMessage,
+    isPasswordValid,
+    errorPasswordMessage,
+    isFormValid,
   } = useForm(formValues);
-  console.log('formState', formState);
-  console.log('isValidForm', isValidForm);
+
   const onSubmit = (event) => {
-    event.preventDefault();
-    createValidators();
-    console.log({ email, password, displayName });
     dispatch(chekingAuth());
   };
 
@@ -63,8 +62,8 @@ export const RegisterPage = () => {
               placeholder='Add your name'
               onChange={onInputChange}
               fullWidth
-              error
-              helperText={'El nombre es obligatorio'}
+              error={!isDisplayNameValid}
+              helperText={errorDisplayNameMessage}
             />
           </Grid>
           <Grid item xs={12} sx={{ mt: 2 }}>
@@ -76,6 +75,8 @@ export const RegisterPage = () => {
               placeholder='Add the email'
               onChange={onInputChange}
               fullWidth
+              error={!isEmailValid}
+              helperText={errorEmailMessage}
             />
           </Grid>
           <Grid item xs={12} sx={{ mt: 2 }}>
@@ -86,11 +87,18 @@ export const RegisterPage = () => {
               type='password'
               onChange={onInputChange}
               fullWidth
+              error={!isPasswordValid}
+              helperText={errorPasswordMessage}
             />
           </Grid>
           <Grid container spacing={2} sx={{ mb: 2, mt: 2 }}>
             <Grid item xs={12}>
-              <Button type='submit' variant='contained' fullWidth>
+              <Button
+                disabled={!isFormValid}
+                type='submit'
+                variant='contained'
+                fullWidth
+              >
                 Crear Cuenta
               </Button>
             </Grid>
