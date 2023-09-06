@@ -1,15 +1,17 @@
 // @ts-nocheck
-import { Button, Grid, Link, TextField } from '@mui/material';
+import { Alert, Button, Grid, Link, TextField } from '@mui/material';
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link as RouteLink } from 'react-router-dom';
 import { useForm } from '../../hooks/useForm';
 import { AuthLayout } from '../layout/AuthLayout';
-import { checkingUserPass } from '../../store/auth/chekingGoogle';
+import { checkingUserPass } from '../../store/auth/checkingUserPass ';
 
 export const RegisterPage = () => {
   const [isDirty, setIsDirty] = useState(false);
   const dispatch = useDispatch();
+  const { errorMessage } = useSelector((state) => state.auth);
+
   const formValues = {
     email: '',
     password: '',
@@ -32,6 +34,7 @@ export const RegisterPage = () => {
       },
     ],
   };
+
   const {
     email,
     password,
@@ -94,6 +97,9 @@ export const RegisterPage = () => {
             />
           </Grid>
           <Grid container spacing={2} sx={{ mb: 2, mt: 2 }}>
+            <Grid item xs={12} display={!!errorMessage ? '' : 'none'}>
+              <Alert severity='error'>{errorMessage}</Alert>
+            </Grid>
             <Grid item xs={12}>
               <Button
                 disabled={!isFormValid}

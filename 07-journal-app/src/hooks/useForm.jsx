@@ -30,7 +30,7 @@ export const useForm = (initialForm = {}) => {
   const createValidators = () => {
     let val = {};
     let isValid = true;
-    formState.validators.map((validation) => {
+    formState?.validators?.map((validation) => {
       isValid = validation.fn(formState[validation.name]);
       val = {
         ...val,
