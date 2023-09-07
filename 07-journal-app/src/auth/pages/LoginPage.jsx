@@ -1,5 +1,12 @@
 import { Google } from '@mui/icons-material';
-import { Button, Grid, Link, TextField, Typography } from '@mui/material';
+import {
+  Alert,
+  Button,
+  Grid,
+  Link,
+  TextField,
+  Typography,
+} from '@mui/material';
 import { Link as RouteLink } from 'react-router-dom';
 import React, { useMemo } from 'react';
 import { AuthLayout } from '../layout/AuthLayout';
@@ -9,7 +16,7 @@ import { chekingAuth } from '../../store/auth/chekingAuth';
 import { chekingGoogle } from '../../store/auth/chekingGoogle';
 
 export const LoginPage = () => {
-  const { status } = useSelector((state) => state.auth);
+  const { status, errorMessage } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const { email, password, onInputChange } = useForm({
     email: '',
@@ -19,11 +26,12 @@ export const LoginPage = () => {
   const onSubmit = (event) => {
     event.preventDefault();
     console.log({ email, password });
-    dispatch(chekingAuth());
+    dispatch(chekingAuth({ email, password }));
   };
 
   const onGoogleSignIn = () => {
     console.log('google');
+
     dispatch(chekingGoogle());
   };
   return (
@@ -52,6 +60,9 @@ export const LoginPage = () => {
             />
           </Grid>
           <Grid container spacing={2} sx={{ mb: 2, mt: 2 }}>
+            <Grid item xs={12} display={!!errorMessage ? '' : 'none'}>
+              <Alert severity='error'>{errorMessage}</Alert>
+            </Grid>
             <Grid item xs={12} md={6}>
               <Button
                 type='submit'
