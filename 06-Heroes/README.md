@@ -1,5 +1,5 @@
 ## Description
-Course for know the hooks and test in react
+App heroes
 
 
 ## Installation
@@ -12,8 +12,5 @@ $ yarn install
 ```bash
 $ yarn run dev
 ```
-
-## Running test
-```bash
-$ yarn test
-```
+## Change the data of heroes
+src/heroes/data/heroes.js
